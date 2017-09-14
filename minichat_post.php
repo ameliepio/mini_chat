@@ -2,35 +2,64 @@
 
 // Effectuer ici la requête qui insère le message
 
-// Puis rediriger vers minichat.php comme ceci :
 
 
-$bdd = new PDO('mysql:host=localhost;dbname=minichat', 'root', 'root', array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_EXCEPTION));
+try
 
-$pseudo=$_POST["pseudo"];
+{
 
-$message=$_POST["message"];
+  $bdd = new PDO('mysql:host=localhost;dbname=minichat','root', 'root', array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_EXCEPTION));
 
-    if (empty($_POST["pseudo"]) AND empty($_POST["message"])){
 
-     echo "recommencer";
+}
 
-     }else{
+catch(Exception $e)
 
-        $req = $bdd->prepare('INSERT INTO mini_chat (pseudo, message) VALUES(:pseudo, :message)');
+{
 
-       $req->execute(array(
+        die('Erreur : '.$e->getMessage());
 
-           'pseudo' => $pseudo,
+}
+// si tableau vide recommenccer
 
-           'message' => $message,));
+if (!empty($_POST["pseudo"]) AND !empty($_POST["message"])){
 
-           $reponse=$bdd ->query('SELECT * FROM mini_chat ORDER BY ID DESC LIMIT 10');
-         }
+  // requête preparé
+          $req = $bdd->prepare('INSERT INTO mini_chat (pseudo, message) VALUES( ?,?)');
 
-           while($donnees =$reponse->fetch()) {
+          $req->execute(array($_POST["pseudo"],$_POST["message"]));
 
-           echo '<p>'.$donnees['ID'] .'-'. $donnees ['pseudo'].'-' .$donnees ['message'] . '</p>';
-           }
 
+}
+
+// $pseudo=$_POST["pseudo"];
+
+// $message=$_POST["message"];
+
+    // if (empty($_POST["pseudo"]) AND empty($_POST["message"])){
+    //
+    //  echo "recommencer";
+    //
+    //  }
+
+// requête preparé
+        // $req = $bdd->prepare('INSERT INTO mini_chat (pseudo, message) VALUES( pseudo,message)');
+        //
+        // $req->execute(array($_POST["pseudo"],$_POST["message"]));
+
+
+          //  'pseudo'=> $pseudo,
+           //
+          //  'message'=> $message,));
+        //
+
+          //  $reponse=$bdd ->query('SELECT * FROM mini_chat ORDER BY ID DESC LIMIT 10');
+           //
+          //  while($donnees =$reponse->fetch()) {
+           //
+          //  echo '<p>'.$donnees['ID'] .'-'. $donnees ['pseudo'].'-' .$donnees['message'] . '</p>';
+          //  }
+
+          // Puis rediriger vers minichat.php comme ceci :
+header('Location: minichat.php');
  ?>

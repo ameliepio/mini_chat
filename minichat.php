@@ -1,5 +1,16 @@
 
-  <link rel="stylesheet" href="main.css">
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Mini-chat</title>
+    </head>
+    <body>
+<header>
+
+</header>
+
+  <link re"stylesheet" href="main.css">
 
 
   <form action="minichat_post.php" method="post">
@@ -12,15 +23,44 @@
   </p>
 
   </form>
+</header>
+<?php
 
-<!-- faire l'affichage des chat et la boucle foreach -->
+// connexion a la base de donnees
 
-<!-- <?php
 
-// $reponse=$bdd ->query('pseudo * message mini_chat');
-//
-// while($donnees =$reponse->fetch()) {
-//
-// echo '<p>' . $donnees ['pseudo']. '</p>';
-// }
- // ?>
+try
+
+{
+
+  $bdd = new PDO('mysql:host=localhost;dbname=minichat','root', 'root', array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_EXCEPTION));
+
+
+}
+
+catch(Exception $e)
+
+{
+
+        die('Erreur : '.$e->getMessage());
+
+}
+
+// récupération des messages
+  $reponse=$bdd ->query('SELECT * FROM mini_chat ORDER BY ID DESC LIMIT 10');
+
+
+
+// sinon afficher message
+
+  while($donnees =$reponse->fetch()) {
+
+  echo '<p>'.$donnees['ID'] .'-'. $donnees ['pseudo'].'-' .$donnees['message'] . '</p>';
+
+}
+
+ ?>
+
+</body>
+
+</html>
