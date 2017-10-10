@@ -6,11 +6,8 @@
         <title>Mini-chat</title>
     </head>
     <body>
-<header>
 
-</header>
-
-  <link re"stylesheet" href="main.css">
+    <link rel="stylesheet" href="main.css"/>
 
 
   <form action="minichat_post.php" method="post">
@@ -35,15 +32,12 @@ try
 
   $bdd = new PDO('mysql:host=localhost;dbname=minichat','root', 'root', array(PDO::ATTR_ERRMODE =>PDO::ERRMODE_EXCEPTION));
 
-
 }
 
 catch(Exception $e)
-
 {
 
         die('Erreur : '.$e->getMessage());
-
 }
 
 // récupération des messages
@@ -55,11 +49,12 @@ catch(Exception $e)
 
   while($donnees =$reponse->fetch()) {
 
-  echo '<p>'.$donnees['ID'] .'-'. $donnees ['pseudo'].'-' .$donnees['message'] . '</p>';
+  echo '<p>'. htmlspecialchars($donnees['ID']) .'-'. htmlspecialchars($donnees ['pseudo']).'-' . htmlspecialchars($donnees['message']) . '</p>';
 
 }
 
  ?>
+
 
 </body>
 
